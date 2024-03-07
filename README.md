@@ -193,6 +193,7 @@ an asynchronous function set that takes a string key, a value and a duration in 
 an asynchronous function del that takes a string key as argument and remove the value in Redis for this key
 After the class definition, create and export an instance of RedisClient called redisClient.
 
+```
 bob@dylan:~$ cat main.js
 import redisClient from './utils/redis';
 
@@ -213,6 +214,7 @@ null
 12
 null
 bob@dylan:~$ 
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -233,6 +235,7 @@ an asynchronous function nbUsers that returns the number of documents in the col
 an asynchronous function nbFiles that returns the number of documents in the collection files
 After the class definition, create and export an instance of DBClient called dbClient.
 
+```
 bob@dylan:~$ cat main.js
 import dbClient from './utils/db';
 
@@ -271,6 +274,7 @@ true
 4
 30
 bob@dylan:~$ 
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -294,6 +298,7 @@ users collection must be used for counting all users
 files collection must be used for counting all files
 Terminal 1:
 
+```
 bob@dylan:~$ npm run start-server
 Server running on port 5000
 ...
@@ -305,6 +310,7 @@ bob@dylan:~$
 bob@dylan:~$ curl 0.0.0.0:5000/stats ; echo ""
 {"users":4,"files":30}
 bob@dylan:~$ 
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -330,6 +336,7 @@ The endpoint is returning the new user with only the email and the id (auto gene
 The new user must be saved in the collection users:
 email: same as the value received
 password: SHA1 value of the value received
+```
 bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com", "password": "toto1234!" }' ; echo ""
 {"id":"5f1e7d35c7ba06511e683b21","email":"bob@dylan.com"}
 bob@dylan:~$ 
@@ -343,6 +350,7 @@ bob@dylan:~$
 bob@dylan:~$ curl 0.0.0.0:5000/users -XPOST -H "Content-Type: application/json" -d '{ "email": "bob@dylan.com" }' ; echo ""
 {"error":"Missing password"}
 bob@dylan:~$ 
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -382,6 +390,7 @@ GET /users/me should retrieve the user base on the token used:
 Retrieve the user based on the token:
 If not found, return an error Unauthorized with a status code 401
 Otherwise, return the user object (email and id only)
+```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"031bffac-3edc-4e51-aaae-1c121317da8a"}
 bob@dylan:~$ 
@@ -393,6 +402,7 @@ bob@dylan:~$ curl 0.0.0.0:5000/disconnect -H "X-Token: 031bffac-3edc-4e51-aaae-1
 bob@dylan:~$ curl 0.0.0.0:5000/users/me -H "X-Token: 031bffac-3edc-4e51-aaae-1c121317da8a" ; echo ""
 {"error":"Unauthorized"}
 bob@dylan:~$ 
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -437,6 +447,7 @@ isPublic: same as the value received
 parentId: same as the value received - if not present: 0
 localPath: for a type=file|image, the absolute path to the file save in local
 Return the new file with a status code 201
+```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
 bob@dylan:~$ 
@@ -482,6 +493,7 @@ bob@dylan:~$
 bob@dylan:~$ ls /tmp/files_manager/
 2a1f4fc3-687b-491a-a3d2-5808a02942c9   51997b88-5c42-42c2-901e-e7f4e71bdc47
 bob@dylan:~$
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -513,6 +525,7 @@ Pagination:
 Each page should be 20 items max
 page query parameter starts at 0 for the first page. If equals to 1, it means it’s the second page (form the 20th to the 40th), etc…
 Pagination can be done directly by the aggregate of MongoDB
+```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
 bob@dylan:~$ 
@@ -525,6 +538,7 @@ bob@dylan:~$
 bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25 -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
 {"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":true,"parentId":"5f1e881cc7ba06511e683b23"}
 bob@dylan:~$
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -554,6 +568,7 @@ If no file document is linked to the user and the ID passed as parameter, return
 Otherwise:
 Update the value of isPublic to false
 And return the file document with a status code 200
+```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
 bob@dylan:~$ 
@@ -566,6 +581,7 @@ bob@dylan:~$
 bob@dylan:~$ curl -XPUT 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/unpublish -H "X-Token: f21fb953-16f9-46ed-8d9c-84c6450ec80f" ; echo ""
 {"id":"5f1e8896c7ba06511e683b25","userId":"5f1e7cda04a394508232559d","name":"image.png","type":"image","isPublic":false,"parentId":"5f1e881cc7ba06511e683b23"}
 bob@dylan:~$ 
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -587,6 +603,7 @@ If the file is not locally present, return an error Not found with a status code
 Otherwise:
 By using the module mime-types, get the MIME-type based on the name of the file
 Return the content of the file with the correct MIME-type
+```
 bob@dylan:~$ curl 0.0.0.0:5000/connect -H "Authorization: Basic Ym9iQGR5bGFuLmNvbTp0b3RvMTIzNCE=" ; echo ""
 {"token":"f21fb953-16f9-46ed-8d9c-84c6450ec80f"}
 bob@dylan:~$ 
@@ -606,6 +623,7 @@ bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e879ec7ba06511e683b22/data ; echo 
 Hello Webstack!
 
 bob@dylan:~$
+```
 Repo:
 
 GitHub repository: alx-files_manager
@@ -632,6 +650,7 @@ Based on size, return the correct local file
 If the local file doesn’t exist, return an error Not found with a status code 404
 Terminal 3: (start the worker)
 
+```
 bob@dylan:~$ npm run start-worker
 ...
 Terminal 2:
@@ -653,6 +672,7 @@ bob@dylan:~$
 bob@dylan:~$ curl -XGET 0.0.0.0:5000/files/5f1e8896c7ba06511e683b25/data?size=250 -so new_image.png ; file new_image.png
 new_image.png: PNG image data, 250 x 272, 8-bit/color RGBA, non-interlaced
 bob@dylan:~$
+```
 Repo:
 
 GitHub repository: alx-files_manager
