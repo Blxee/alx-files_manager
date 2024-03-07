@@ -180,7 +180,7 @@ Don’t forget to run $ npm install when you have the package.json
 
 Tasks
 ### 0. Redis utils
-**mandatory**
+**mandatory**  
 Inside the folder utils, create a file redis.js that contains the class RedisClient.
 
 RedisClient should have:
@@ -219,7 +219,7 @@ GitHub repository: alx-files_manager
 File: utils/redis.js
   
 ### 1. MongoDB utils
-**mandatory**
+**mandatory**  
 Inside the folder utils, create a file db.js that contains the class DBClient.
 
 DBClient should have:
@@ -277,7 +277,7 @@ GitHub repository: alx-files_manager
 File: utils/db.js
   
 ### 2. First API
-**mandatory**
+**mandatory**  
 Inside server.js, create the Express server:
 
 it should listen on the port set by the environment variable PORT or by default 5000
@@ -311,7 +311,7 @@ GitHub repository: alx-files_manager
 File: server.js, routes/index.js, controllers/AppController.js
   
 ### 3. Create a new user
-**mandatory**
+**mandatory**  
 Now that we have a simple API, it’s time to add users to our database.
 
 In the file routes/index.js, add a new endpoint:
@@ -349,7 +349,7 @@ GitHub repository: alx-files_manager
 File: utils/, routes/index.js, controllers/UsersController.js
   
 ### 4. Authenticate a user
-**mandatory**
+**mandatory**  
 In the file routes/index.js, add 3 new endpoints:
 
 GET /connect => AuthController.getConnect
@@ -399,7 +399,7 @@ GitHub repository: alx-files_manager
 File: utils/, routes/index.js, controllers/UsersController.js, controllers/AuthController.js
   
 ### 5. First file
-**mandatory**
+**mandatory**  
 In the file routes/index.js, add a new endpoint:
 
 POST /files => FilesController.postUpload
@@ -488,7 +488,7 @@ GitHub repository: alx-files_manager
 File: utils/, routes/index.js, controllers/FilesController.js
   
 ### 6. Get and list file
-**mandatory**
+**mandatory**  
 In the file routes/index.js, add 2 new endpoints:
 
 GET /files/:id => FilesController.getShow
@@ -531,7 +531,7 @@ GitHub repository: alx-files_manager
 File: utils/, routes/index.js, controllers/FilesController.js
   
 ### 7. File publish/unpublish
-**mandatory**
+**mandatory**  
 In the file routes/index.js, add 2 new endpoints:
 
 PUT /files/:id/publish => FilesController.putPublish
@@ -572,7 +572,7 @@ GitHub repository: alx-files_manager
 File: utils/, routes/index.js, controllers/FilesController.js
   
 ### 8. File data
-**mandatory**
+**mandatory**  
 In the file routes/index.js, add one new endpoint:
 
 GET /files/:id/data => FilesController.getFile
@@ -612,7 +612,7 @@ GitHub repository: alx-files_manager
 File: utils/, routes/index.js, controllers/FilesController.js
  
 ### 9. Image Thumbnails
-**mandatory**
+**mandatory**  
 Update the endpoint POST /files endpoint to start a background processing for generating thumbnails for a file of type image:
 
 Create a Bull queue fileQueue
@@ -659,7 +659,7 @@ GitHub repository: alx-files_manager
 File: utils/, controllers/FilesController.js, worker.js
  
 ### 10. Tests!
-**advanced**
+**advanced**  
 Of course, a strong and stable project can not be good without tests.
 
 Create tests for redisClient and dbClient.
@@ -684,7 +684,7 @@ GitHub repository: alx-files_manager
 File: tests/
  
 ### 11. New user - welcome email
-**advanced**
+**advanced**  
 Update the endpoint POST /users endpoint to start a background processing for sending a “Welcome email” to the user:
 
 Create a Bull queue userQueue
