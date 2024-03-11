@@ -1,12 +1,13 @@
+#!/usr/bin/node
 import redis from 'redis';
 import { promisify } from 'node:util';
 
 class RedisClient {
   constructor() {
-    this.alive = true;
+    this.alive = false;
     this.client = redis.createClient()
       .on('error', redis.print)
-      .on('ready', () => {
+      .on('connect', () => {
         this.alive = true;
       });
   }
