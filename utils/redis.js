@@ -3,7 +3,7 @@ import { promisify } from 'node:util';
 
 class RedisClient {
   constructor() {
-    this.alive = true;
+    this.alive = false;
     this.client = redis.createClient()
       .on('error', redis.print)
       .on('ready', () => {
