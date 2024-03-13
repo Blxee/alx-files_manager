@@ -11,9 +11,7 @@ class DBClient {
       `mongodb://${host}:${port}/${database}`,
       (err, db) => {
         if (!err) {
-          this.client = db;
           this.alive = true;
-
           db.createCollection('users');
           db.createCollection('files');
         }
