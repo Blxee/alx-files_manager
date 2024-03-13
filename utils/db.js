@@ -7,16 +7,14 @@ class DBClient {
     const database = process.env.DB_DATABASE || 'files_manager';
 
     this.alive = false;
-    this.client = MongoClient.connect(
-      `mongodb://${host}:${port}/${database}`,
-      (err, db) => {
-        if (!err) {
-          this.alive = true;
-          db.createCollection('users');
-          db.createCollection('files');
-        }
-      },
-    );
+    this.client = new MongoClient(`mongodb://${host}:${port}/${database}`);
+    this.client.connect((err, db) => {
+      if (!err) {
+        this.alive = true;
+        db.createCollection('users');
+        db.createCollection('files');
+      }
+    });
   }
 
   isAlive() {
