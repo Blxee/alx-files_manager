@@ -4,11 +4,11 @@ import { promisify } from 'node:util';
 class RedisClient {
   constructor() {
     this.alive = false;
-    this.client = redis.createClient()
-      .on('error', redis.print)
-      .on('ready', () => {
-        this.alive = true;
-      });
+    this.client = redis.createClient();
+    this.client.on('error', redis.print);
+    this.client.on('ready', () => {
+      this.alive = true;
+    });
   }
 
   isAlive() {
