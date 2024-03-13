@@ -7,12 +7,12 @@ class DBClient {
     const database = process.env.DB_DATABASE || 'files_manager';
 
     this.alive = false;
-    this.client = new MongoClient(`mongodb://${host}:${port}/${database}`);
-    this.client.connect((err, db) => {
+    this.client = new MongoClient(`mongodb://${host}:${port}/${database}`, { useUnifiedTopology: true });
+    this.client.connect((err) => {
       if (!err) {
         this.alive = true;
-        db.createCollection('users');
-        db.createCollection('files');
+        this.client.db.createCollection('users');
+        this.client.db.createCollection('files');
       }
     });
   }
