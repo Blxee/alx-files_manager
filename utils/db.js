@@ -11,8 +11,6 @@ class DBClient {
     this.client.connect((err) => {
       if (!err) {
         this.alive = true;
-        this.client.db.createCollection('users');
-        this.client.db.createCollection('files');
       }
     });
   }
