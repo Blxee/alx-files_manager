@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const { createHash } = require('crypto');
 
 class DBClient {
   constructor() {
@@ -25,6 +26,15 @@ class DBClient {
 
   async nbFiles() {
     return this.client.db().collection('files').countDocuments();
+  }
+
+  createUser(email, password) {
+    const hashedPassword = createHash('sha1').update(password).digest('hex');
+    this.client.db().collection('users').insertOne({ email, hashedPassword });
+  }
+
+  async userExists(email) {
+    return Boolean(this.client.db().collection('users').findOne({ email }));
   }
 }
 

@@ -1,4 +1,3 @@
-const redisClient = require('../utils/redis');
 const dbClient = require('../utils/db');
 
 exports.postNew = function postNew(req, res) {
@@ -14,7 +13,14 @@ exports.postNew = function postNew(req, res) {
     return;
   }
 
-  redisClient.get();
+  dbClient.userExists(user.email)
+    .then((res) => {
+      if (dbClient.userExists(user.email)) {
+        res.status(400).end('Already exist');
+      } else {
+        dbClient.createUser(user.email, user.password);
+      }
+    });
 };
 
 exports.getMe = function getMe() {
