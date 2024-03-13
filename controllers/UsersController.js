@@ -1,7 +1,7 @@
-import redisClient from "../utils/redis";
-import dbClient from "../utils/db";
+const redisClient = require('../utils/redis');
+const dbClient = require('../utils/db');
 
-export function postNew(req, res) {
+exports.postNew = function postNew(req, res) {
   const user = req.body;
 
   if (!('email' in user)) {
@@ -15,8 +15,8 @@ export function postNew(req, res) {
   }
 
   redisClient.get();
-}
+};
 
-export function getMe() {
+exports.getMe = function getMe() {
 
-}
+};

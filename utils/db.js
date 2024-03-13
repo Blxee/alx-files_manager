@@ -2,10 +2,13 @@ const { MongoClient } = require('mongodb');
 
 class DBClient {
   constructor() {
-    const { DB_HOST, DB_PORT, DB_DATABASE } = process.env;
+    const host = process.env.DB_HOST || 'localhost';
+    const port = process.env.DB_PORT || 27017;
+    const database = process.env.DB_DATABASE || 'files_manager';
+
     this.alive = false;
     this.client = MongoClient.connect(
-      `mongodb://${DB_HOST || 'localhost'}:${DB_PORT || 27017}/${DB_DATABASE || 'files_manager'}`,
+      `mongodb://${host}:${port}/${database}`,
       (err, db) => {
         if (!err) {
           this.client = db;
@@ -23,11 +26,11 @@ class DBClient {
   }
 
   async nbUsers() {
-    return this.client.collection('users').find({}).length;
+    return this.client.db().collection('users').countDocuments();
   }
 
   async nbFiles() {
-    return this.client.collection('files').find({}).length;
+    return this.client.db().collection('files').countDocuments();
   }
 }
 

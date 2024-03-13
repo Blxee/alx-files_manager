@@ -1,7 +1,6 @@
-import { Router } from "express";
-import { getStatus, getStats } from '../controllers/AppController';
-import { postNew } from  '../controllers/UsersController';
-
+const { Router } = require('express');
+const { getStatus, getStats } = require('../controllers/AppController');
+const { postNew } = require('../controllers/UsersController');
 
 const router = new Router();
 
@@ -9,4 +8,4 @@ router.get('/status', getStatus);
 router.get('/stats', getStats);
 router.post('/users', postNew);
 
-export default router;
+module.exports = router;
