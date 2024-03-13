@@ -8,7 +8,7 @@ exports.getStatus = function getStatus(req, res) {
   };
   res.setHeader('Content-Type', 'application/json');
   res.status(200);
-  res.end(JSON.parse(status));
+  res.end(JSON.stringify(status));
 };
 
 exports.getStats = async function getStats(req, res) {
@@ -18,5 +18,5 @@ exports.getStats = async function getStats(req, res) {
   };
   res.setHeader('Content-Type', 'application/json');
   res.status(200);
-  res.end(JSON.parse(stats));
+  res.end(JSON.stringify(stats));
 };
