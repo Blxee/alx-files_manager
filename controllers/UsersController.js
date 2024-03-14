@@ -19,6 +19,7 @@ exports.postNew = function postNew(req, res) {
         res.status(400).end('Already exist');
       } else {
         dbClient.createUser(user.email, user.password);
+        res.status(201);
       }
     });
 };
