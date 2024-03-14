@@ -14,12 +14,15 @@ exports.postNew = function postNew(req, res) {
   }
 
   dbClient.userExists(user.email)
-    .then((res) => {
-      if (dbClient.userExists(user.email)) {
+    .then((val) => {
+      if (val) {
         res.status(400).end('Already exist');
       } else {
-        dbClient.createUser(user.email, user.password);
-        res.status(201);
+        dbClient.createUser(user.email, user.password)
+          .then((val2) => {
+            res.status(201);
+            res.end(JSON.stringify(val2));
+          });
       }
     });
 };

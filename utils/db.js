@@ -28,9 +28,10 @@ class DBClient {
     return this.client.db().collection('files').countDocuments();
   }
 
-  createUser(email, password) {
+  async createUser(email, password) {
     const hashedPassword = createHash('sha1').update(password).digest('hex');
-    this.client.db().collection('users').insertOne({ email, hashedPassword });
+    const id = await this.client.db().collection('users').insertOne({ email, hashedPassword });
+    return { id, email };
   }
 
   async userExists(email) {
