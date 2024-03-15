@@ -8,10 +8,14 @@ exports.getConnect = function getConnect(req, res) {
   auth = Buffer.from(auth, 'base64').toString();
   const [email, password] = auth.split(':');
 
+  res.setHeader('Content-Type', 'application/json');
+
+  if (!email || !password) {
+    res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
+  }
+
   dbClient.getUser(email, password)
     .then((user) => {
-      res.setHeader('Content-Type', 'application/json');
-
       if (user) {
         const token = uuidv4();
         redisClient.set(
