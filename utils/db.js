@@ -56,7 +56,7 @@ class DBClient {
   async createFile({ data, localPath, ...fileData }) {
     let path = '';
     let { parentId } = fileData;
-    while (parentId !== '0') {
+    if (parentId !== '0') {
       const parent = this.getFile({ _id: parentId });
       path = pathJoin(parent.name, path);
       parentId = parent.parentId;
