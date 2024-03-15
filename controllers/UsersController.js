@@ -1,4 +1,5 @@
 const dbClient = require('../utils/db');
+const redisClient = require('../utils/redis');
 
 exports.postNew = function postNew(req, res) {
   const user = req.body;
@@ -29,6 +30,18 @@ exports.postNew = function postNew(req, res) {
     });
 };
 
-exports.getMe = function getMe() {
+exports.getMe = function getMe(req, res) {
+  const token = req.headers['x-token'];
 
+  redisClient.get(`auth_${token}`)
+    .then((val) => {
+      res.setHeader('Content-Type', 'application/json');
+
+      if (val) {
+        const { _id: id, email } = JSON.parse(val);
+        res.end(JSON.stringify({ id, email }));
+      } else {
+        res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
+      }
+    });
 };

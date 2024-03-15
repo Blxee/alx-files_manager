@@ -40,6 +40,15 @@ class DBClient {
     const value = await this.client.db().collection('users').findOne({ email });
     return Boolean(value);
   }
+
+  async getUser(email, password) {
+    const user = await this.client.db().collection('users').findOne({ email });
+    const hashedPassword = createHash('sha1').update(password).digest('hex');
+    if (user && hashedPassword === user.password) {
+      return user;
+    }
+    return undefined;
+  }
 }
 
 const dbClient = new DBClient();
