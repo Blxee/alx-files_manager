@@ -12,6 +12,8 @@ class DBClient {
     this.client.connect((err) => {
       if (!err) {
         this.alive = true;
+      } else {
+        console.log(err);
       }
     });
   }
@@ -30,12 +32,13 @@ class DBClient {
 
   async createUser(email, password) {
     const hashedPassword = createHash('sha1').update(password).digest('hex');
-    const id = await this.client.db().collection('users').insertOne({ email, hashedPassword });
-    return { id, email };
+    const newUser = await this.client.db().collection('users').insertOne({ email, hashedPassword });
+    return { id: newUser.insertedId, email };
   }
 
   async userExists(email) {
-    return Boolean(this.client.db().collection('users').findOne({ email }));
+    const value = await this.client.db().collection('users').findOne({ email });
+    return Boolean(value);
   }
 }
 

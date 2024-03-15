@@ -1,7 +1,6 @@
 const { Router } = require('express');
-const {
-  getStatus, getStats, getConnect, getDisconnect,
-} = require('../controllers/AppController');
+const { getStatus, getStats } = require('../controllers/AppController');
+const { getConnect, getDisconnect } = require('../controllers/AuthController');
 const { postNew, getMe } = require('../controllers/UsersController');
 
 const router = new Router();
