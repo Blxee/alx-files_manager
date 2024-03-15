@@ -21,6 +21,7 @@ exports.postNew = function postNew(req, res) {
         dbClient.createUser(user.email, user.password)
           .then((val2) => {
             res.status(201);
+            res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify(val2));
           });
       }
