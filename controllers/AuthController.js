@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
 
-exports.getConnect = function getConnect(req, res) {
+exports.getConnect = async function getConnect(req, res) {
   let auth = req.headers.authorization;
   auth = auth.replace('Basic ', '');
   auth = Buffer.from(auth, 'base64').toString();
@@ -11,23 +11,22 @@ exports.getConnect = function getConnect(req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   if (!email || !password) {
-    res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
+    return res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
   }
 
-  dbClient.getUser(email, password)
-    .then((user) => {
-      if (user) {
-        const token = uuidv4();
-        redisClient.set(
-          `auth_${token}`,
-          JSON.stringify(user), // this may need to be changed
-          24 * 60 * 60,
-        );
-        res.end(JSON.stringify({ token }));
-      } else {
-        res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
-      }
-    });
+  const user = await dbClient.getUser(email, password);
+
+  if (user == null) {
+    return res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
+  }
+
+  const token = uuidv4();
+  redisClient.set(
+    `auth_${token}`,
+    JSON.stringify(user), // this may need to be changed
+    24 * 60 * 60,
+  );
+  return res.end(JSON.stringify({ token }));
 };
 
 exports.getDisconnect = function getDisconnect(req, res) {

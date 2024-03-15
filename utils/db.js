@@ -1,3 +1,6 @@
+const fs = require('fs');
+const { join: pathJoin } = require('path');
+const { v4: uuidv4 } = require('uuid');
 const { MongoClient } = require('mongodb');
 const { createHash } = require('crypto');
 
@@ -48,6 +51,37 @@ class DBClient {
       return user;
     }
     return undefined;
+  }
+
+  async createFile({ data, localPath, ...fileData }) {
+    let path = '';
+    let { parentId } = fileData;
+    while (parentId !== '0') {
+      const parent = this.getFile({ _id: parentId });
+      path = pathJoin(parent.name, path);
+      parentId = parent.parentId;
+    }
+    path = pathJoin(localPath, path);
+
+    if (fileData.type === 'folder') {
+      fs.mkdirSync(pathJoin(path, fileData.name));
+    } else {
+      path = pathJoin(path, uuidv4());
+      fs.mkdirSync(path, { recursive: true });
+      const buffer = Buffer.from(data, 'base64').toString();
+      fs.writeFileSync(pathJoin(path, fileData.name), buffer);
+    }
+
+    const newFile = await this.client.db().collection('files').insertOne(fileData);
+    if (fileData.type === 'folder') {
+      return { id: newFile.insertedId, ...fileData };
+    }
+    return { id: newFile.insertedId, localPath: path, ...fileData };
+  }
+
+  async getFile(filter) {
+    const file = await this.client.db().collection('files').findOne(filter);
+    return file;
   }
 }
 

@@ -30,18 +30,17 @@ exports.postNew = function postNew(req, res) {
     });
 };
 
-exports.getMe = function getMe(req, res) {
+exports.getMe = async function getMe(req, res) {
   const token = req.headers['x-token'];
 
-  redisClient.get(`auth_${token}`)
-    .then((val) => {
-      res.setHeader('Content-Type', 'application/json');
+  const auth = await redisClient.get(`auth_${token}`);
 
-      if (val) {
-        const { _id: id, email } = JSON.parse(val);
-        res.end(JSON.stringify({ id, email }));
-      } else {
-        res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
-      }
-    });
+  res.setHeader('Content-Type', 'application/json');
+
+  if (auth) {
+    const { _id: id, email } = JSON.parse(auth);
+    res.end(JSON.stringify({ id, email }));
+  } else {
+    res.status(401).end(JSON.stringify({ error: 'Unauthorized' }));
+  }
 };
