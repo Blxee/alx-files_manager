@@ -32,7 +32,7 @@ class DBClient {
 
   async createUser(email, password) {
     const hashedPassword = createHash('sha1').update(password).digest('hex');
-    const newUser = await this.client.db().collection('users').insertOne({ email, hashedPassword });
+    const newUser = await this.client.db().collection('users').insertOne({ email, password: hashedPassword });
     return { id: newUser.insertedId, email };
   }
 
