@@ -72,7 +72,7 @@ class DBClient {
       fs.writeFileSync(pathJoin(path, fileData.name), buffer);
     }
 
-    const newFile = await this.client.db().collection('files').insertOne(fileData);
+    const newFile = await this.client.db().collection('files').insertOne({ ...fileData });
     if (fileData.type === 'folder') {
       return { id: newFile.insertedId, ...fileData };
     }
