@@ -1,5 +1,8 @@
+const Queue = require('bull');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
+
+const userQueue = new Queue('send welcome email');
 
 exports.postNew = function postNew(req, res) {
   const user = req.body;
@@ -23,6 +26,7 @@ exports.postNew = function postNew(req, res) {
       } else {
         dbClient.createUser(user.email, user.password)
           .then((val2) => {
+            userQueue.add({ userId: val2.id });
             res.status(201);
             res.end(JSON.stringify(val2));
           });
